@@ -1,3 +1,4 @@
-[submodule "tpch-dbgen"]
-	path = fls_benchmarks/integration/tpch-dbgen
-	url = https://github.com/electrum/tpch-dbgen
+[submodule "FastLanes_Data"]
+	path = FastLanes_Data
+	url = https://github.com/cwida/FastLanes_Data
+	branch = main
