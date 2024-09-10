@@ -1,0 +1,154 @@
+name: CI
+run-name: "${{ github.actor }} - ${{ github.event.head_commit.message }}"
+
+on: push
+
+jobs:
+  check-format:
+    runs-on: [ ubuntu-latest ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: run-clang-format
+        run: python3 scripts/run-clang-format.py -r example include src benchmark test data/include --exclude include/fls/json/nlohmann
+
+  build:
+    needs:
+      - check-format
+    strategy:
+      fail-fast: true
+      matrix:
+        platform: [ ubuntu-latest ]
+        build_type: [ Debug, Release ]
+        cxx: [ clang++ ]
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make directory build
+        run: mkdir ${{github.workspace}}/build_${{ matrix.build_type }}
+
+      - name: Configure CMake
+        run: cmake -S ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -B ${{github.workspace}}/build_${{ matrix.build_type }}
+        env:
+          CXX: ${{ matrix.cxx }}
+
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build_${{ matrix.build_type }} -j 10
+
+  build-iwyu:
+    needs:
+      - build
+    #    if: github.actor == 'azimafroozeh'
+    strategy:
+      fail-fast: true
+      matrix:
+        platform: [ ubuntu-latest ]
+        build_type: [ Release ]
+        cxx: [ clang++ ]
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make directory build
+        run: mkdir ${{github.workspace}}/build_iwyu_${{ matrix.build_type }}
+
+      - name: Configure CMake
+        run: cmake -S ${{github.workspace}} -DFLS_ENABLE_IWYU=ON  -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -B ${{github.workspace}}/build_iwyu_${{ matrix.build_type }}
+        env:
+          CXX: ${{ matrix.cxx }}
+
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build_iwyu_${{ matrix.build_type }} -j 10
+
+  generate_dataset:
+    needs:
+      - build-iwyu
+    strategy:
+      fail-fast: true
+      matrix:
+        platform: [ ubuntu-latest ]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: generate data
+        run: cd ${{github.workspace}}/scripts/; python3 generate_synthetic_data.py
+
+  example:
+    needs:
+      - generate_dataset
+    #    if: github.actor == 'azimafroozeh'
+    strategy:
+      fail-fast: true
+      matrix:
+        platform: [ ubuntu-latest ]
+        build_type: [ Debug ]
+        cc: [ clang ]
+        cxx: [ clang++ ]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Make exmaple_build_${{ matrix.build_type }} directory
+        run: mkdir ${{github.workspace}}/example_build_${{ matrix.build_type }}
+
+      - name: Configure CMake
+        run: cmake  -DFLS_BUILD_EXAMPLE=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S ${{github.workspace}} -B ${{github.workspace}}/exmaple_build_${{ matrix.build_type }}
+        env:
+          CXX: ${{ matrix.cxx }}
+          CC: ${{matrix.cc}}
+
+      - name: Build
+        run: cmake --build ${{github.workspace}}/exmaple_build_${{ matrix.build_type }} -j 10
+
+      - name: run cpp_example
+        run: ${{github.workspace}}/exmaple_build_${{ matrix.build_type }}/example/cpp_example
+
+  test:
+    needs:
+      - example
+    strategy:
+      fail-fast: true
+      matrix:
+        platform: [ ubuntu-latest ]
+        build_type: [ Release ] # TODO : ADD DEBUG
+        cxx: [ clang++ ]
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Make directory build
+        run: mkdir ${{github.workspace}}/test_build_${{ matrix.build_type }}
+
+      - name: Configure CMake
+        run: cmake  -DFLS_BUILD_TESTING=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S ${{github.workspace}} -B ${{github.workspace}}/test_build_${{ matrix.build_type }}
+        env:
+          CXX: ${{ matrix.cxx }}
+
+      - name: Build
+        run: cmake --build ${{github.workspace}}/test_build_${{ matrix.build_type }} -j 10
+
+      - name: Test
+        working-directory: ${{github.workspace}}/test_build_${{ matrix.build_type }}
+        run: ctest -j 10 --stop-on-failure --output-on-failure --timeout 3500
+
+
+
+
+
+
+
