@@ -86,8 +86,9 @@ struct TYPE_C<HEAD_T, TAIL_T...> {
 \---------------------------------------------------------------------------------------------------------------------*/
 template <uint64_t N>
 struct Max {
-	enum : uint64_t { VALUE = (1UL << N) - 1UL };
+	static constexpr uint64_t VALUE = (1UL << N) - 1UL;
 };
+
 static_assert(Max<4>::VALUE == 15);
 static_assert(Max<32>::VALUE == 4294967295, "2 ^ 32 - 1");
 
