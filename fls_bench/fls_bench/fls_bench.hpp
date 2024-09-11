@@ -22,7 +22,6 @@
 #include <cstring>
 #include <cstring> // for memset
 #include <ctime>
-#include <dlfcn.h>
 #include <exception>
 #include <fstream>
 #include <iosfwd>
