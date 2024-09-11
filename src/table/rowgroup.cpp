@@ -26,7 +26,8 @@ col_pt init_logial_columns(const ColDescription& col_description) {
 		init_logial_columns(col_description.children, uped_struct->table);
 		return uped_struct;
 	}
-	case DataType::MAP: { // MAP(KEY, VALUE) = LIST(STRUCT(KEY, VALUE))
+	case DataType::MAP: {
+		// MAP(KEY, VALUE) = LIST(STRUCT(KEY, VALUE))
 		auto uped_struct = make_unique<Struct>();
 		init_logial_columns(col_description.children, uped_struct->table);
 
@@ -129,10 +130,12 @@ struct col_equality_visitor {
 		}
 		return true;
 	}
+
 	bool operator()(std::monostate&, std::monostate&) {
 		FLS_UNREACHABLE();
 		return false;
 	}
+
 	bool operator()(auto&, auto&) { return false; }
 };
 
@@ -151,6 +154,7 @@ bool Rowgroup::Equal(const n_t first_col_idx, const n_t second_col_idx) const {
 
 	return true;
 }
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 struct col_map_1t1_visitor {
 	template <typename FIRST_PT, typename SECOND_PT>
@@ -169,10 +173,12 @@ struct col_map_1t1_visitor {
 		}
 		return true;
 	}
+
 	bool operator()(std::monostate&, std::monostate&) {
 		FLS_UNREACHABLE();
 		return false;
 	}
+
 	bool operator()(auto&, auto&) { return false; }
 };
 
@@ -181,6 +187,7 @@ bool map_1t1_visit(const col_pt& col_1, const col_pt& col_2) { return visit(col_
 bool Rowgroup::IsMap1t1(const n_t first_col_idx, const n_t second_col_idx) const {
 	return map_1t1_visit(internal_rowgroup[first_col_idx], internal_rowgroup[second_col_idx]);
 }
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 bool Rowgroup::is_good_for_ditionary_encoding(const n_t col_idx) const {
 
@@ -208,6 +215,7 @@ bool Rowgroup::is_good_for_ditionary_encoding(const n_t col_idx) const {
 	                         }},
 	             col);
 }
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 void cast_from_logical_to_physical(const Rowgroup& old_table, Rowgroup& new_table) {
 	for (idx_t idx {0}; idx < old_table.ColCount(); ++idx) {
@@ -259,7 +267,7 @@ void Rowgroup::ReadCsv(const path& csv_path, char delimiter, char terminator) {
 	}
 }
 
-void parse_json_tuple(const nlohmann::json& tuple, rowgroup_pt& columns, const col_descriptions_t& schema);
+void parse_json_tuple(const nlohmann::json& json, rowgroup_pt& columns, const col_descriptions_t& schema);
 
 void parse_json_value(const nlohmann::json& json_value, col_pt& column, const ColDescription& col_description) {
 	const bool is_null = json_value.is_null();
@@ -303,15 +311,15 @@ void parse_json_value(const nlohmann::json& json_value, col_pt& column, const Co
 	      column);
 }
 
-void parse_json_tuple(const nlohmann::json& tuple, rowgroup_pt& columns, const col_descriptions_t& schema) {
+void parse_json_tuple(const nlohmann::json& json, rowgroup_pt& columns, const col_descriptions_t& schema) {
 	for (idx_t i = 0; i < schema.size(); ++i) {
 		const auto& col_description = schema[i];
 
-		auto* value = &tuple;
-		if (!tuple.contains(col_description.name)) {
+		const nlohmann::json* value;
+		if (!json.contains(col_description.name)) {
 			value = nullptr;
 		} else {
-			value = &tuple[col_description.name];
+			value = &json[col_description.name];
 		}
 		parse_json_value(value == nullptr ? nlohmann::json() : *value, columns[i], col_description);
 	}
