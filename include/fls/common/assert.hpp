@@ -2,11 +2,13 @@
 #define FLS_COMMON_ASSERT_HPP
 
 #ifdef NDEBUG
-#define FLS_ASSERT(...)          ;
-#define DETAILED_FLS_ASSERT(...) ;
-#define FLS_ASSERT_POINTER(...)  ;
+#define FLS_ASSERT(...)            ;
+#define DETAILED_FLS_ASSERT(...)   ;
+#define FLS_ASSERT_POINTER(...)    ;
+#define FLS_ASSERT_CORRECT_BW(...) ;
 
 #else
+#define FLS_ASSERT_CORRECT_BW(bw)           fastlanes::Assert::CorrectBW(bw);
 #define FLS_ASSERT_POINTER(p)               fastlanes::Assert::NotNullPointer(p)
 #define FLS_ASSERT(Expr, Val, Msg)          fastlanes::FlsAssert(#Expr, Val, Expr, __FILE__, __LINE__, Msg)
 #define DETAILED_FLS_ASSERT(Expr, Val, Msg) fastlanes::DetailedFlsAssert(#Expr, Val, Expr, __FILE__, __LINE__, Msg)
@@ -19,7 +21,6 @@
 #define FLS_ASSERT_NULL_POINTER(Expr)           FLS_ASSERT(Expr == nullptr, " ", "");
 #define FLS_ASSERT_CORRECT_MIN_MAX(Min, Max)    FLS_ASSERT(Max >= Min, " ", fastlanes::Assert::NULL_POINTER);
 #define FLS_ASSERT_CORRECT_RANGE(Range)         FLS_ASSERT(Range >= 0, " ", fastlanes::Assert::CORRECT_BW);
-#define FLS_ASSERT_CORRECT_BW(Bw)               DETAILED_FLS_ASSERT(Bw >= 0 && Bw <= 64, #Bw, fastlanes::Assert::NULL_POINTER);
 #define FLS_ASSERT_NOT_ZERO(Expr)               FLS_ASSERT(Expr != 0, " ", fastlanes::Assert::ZERO);
 #define FLS_ASSERT_ZERO(Expr)                   FLS_ASSERT(Expr == 0, " ", fastlanes::Assert::NOT_ZERO);
 #define FLS_ASSERT_CORRECT_SZ(Expr)             FLS_ASSERT(Expr >= 0, " ", fastlanes::Assert::NEGATIVE_SZ);
@@ -46,7 +47,7 @@
 #define FLS_ASSERT_E(L_VAL, R_VAL)              FLS_ASSERT(L_VAL == R_VAL, " ", " ");
 #define FLS_ASSERT_CORRECT_IDX(Expr)            FLS_ASSERT(Expr >= 0, " ", fastlanes::Assert::IDX);
 #define FLS_ASSERT_NOT_EMPTY_VEC(VEC)           FLS_ASSERT(!VEC.empty(), " ", fastlanes::Assert::EMPTY_VECTOR);
-#include "alias.hpp"
+#include <cstdint>
 
 namespace fastlanes {
 void FlsAssert(const char* expr_str, const char* str, bool expr, const char* file, int line, const char* msg);
@@ -55,6 +56,7 @@ void DetailedFlsAssert(const char* expr_str, const char* str, bool expr, const c
 class Assert {
 public:
 	static void NotNullPointer(const void* p);
+	static void CorrectBW(uint64_t bw);
 
 public:
 	static constexpr auto CORRECT_EXP_T_MSG      = "Exp is invalid.";
