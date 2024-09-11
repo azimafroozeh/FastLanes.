@@ -22,10 +22,12 @@ jobs:
     needs:
       - check-format
     strategy:
+      fail-fast: false
       matrix:
         platform: [ ubuntu-latest, macos-latest, president ]
         build_type: [ Debug, Release ]
         cxx: [ clang++ ]
+
     runs-on: ${{ matrix.platform }}
 
     steps:
