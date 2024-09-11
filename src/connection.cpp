@@ -30,7 +30,7 @@ Connection& Connection::read(const path& dir_path) {
 
 	for (const auto& entry : std::filesystem::directory_iterator(dir_path)) {
 		const auto& file_path     = entry.path();
-		auto        file_path_str = string(file_path);
+		auto        file_path_str = file_path.string();
 		if (const auto schema_path = file_path_str.find(SCHEMA_FILE_NAME); schema_path != std::string::npos) {
 			is_schema_found = true;
 			dir.schema_path = file_path;
