@@ -3,6 +3,8 @@
 #include <sys/fcntl.h>
 #if defined(_WIN32)
 #include <windows.h> // For Windows memory-mapping
+#define open  _open
+#define close _close
 #else
 #include <sys/mman.h> // For POSIX memory-mapping
 #endif
@@ -15,7 +17,14 @@ namespace fastlanes {
  * */
 std::byte* Mmap::Open(bsz_t init_bsz, int& fd, const std::filesystem::path& path) {
 	/**/
+#if defined(_WIN32)
+	// Use _open() on Windows
+	fd = open(path.c_str(), _O_RDWR | _O_CREAT, _S_IREAD | _S_IWRITE);
+#else
+	// Use POSIX open() on Linux/macOS
 	fd = open(path.c_str(), O_RDWR | O_CREAT, 0777);
+#endif
+
 	if (fd == -1) {
 		/**/
 		throw std::runtime_error(strerror(errno));
