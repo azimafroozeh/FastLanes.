@@ -5,7 +5,7 @@ on: push
 
 jobs:
   check-format:
-    runs-on: [ ubuntu-latest ]
+    runs-on: [ ubuntu-latest, macos-latest ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        platform: [ ubuntu-latest ]
+        platform: [ ubuntu-latest, macos-latest ]
         build_type: [ Debug, Release ]
         cxx: [ clang++ ]
     runs-on: ${{ matrix.platform }}
@@ -46,7 +46,7 @@ jobs:
   #    strategy:
   #      fail-fast: true
   #      matrix:
-  #        platform: [ ubuntu-latest ]
+  #        platform: [ ubuntu-latest, macos-latest]
   #        build_type: [ Release ]
   #        cxx: [ clang++ ]
   #    runs-on: ${{ matrix.platform }}
@@ -72,7 +72,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        platform: [ ubuntu-latest ]
+        platform: [ ubuntu-latest, macos-latest ]
         python-version: [ 3.12.4 ]  # Python 3 versions
 
     runs-on: ${{ matrix.platform }}
@@ -96,11 +96,10 @@ jobs:
   example:
     needs:
       - generate_dataset
-    #    if: github.actor == 'azimafroozeh'
     strategy:
       fail-fast: true
       matrix:
-        platform: [ ubuntu-latest ]
+        platform: [ ubuntu-latest, macos-latest ]
         build_type: [ Debug ]
         cc: [ clang ]
         cxx: [ clang++ ]
@@ -132,7 +131,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        platform: [ ubuntu-latest ]
+        platform: [ ubuntu-latest, macos-latest ]
         build_type: [ Release ] # TODO : ADD DEBUG
         cxx: [ clang++ ]
     runs-on: ${{ matrix.platform }}
