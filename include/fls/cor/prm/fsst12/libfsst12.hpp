@@ -3,6 +3,7 @@
 
 // NOLINTBEGIN
 #pragma clang diagnostic ignored "-Wconversion"
+#pragma clang diagnostic ignored "-Wshorten-64-to-32"
 
 // this software is distributed under the MIT License (http://www.opensource.org/licenses/MIT):
 //
