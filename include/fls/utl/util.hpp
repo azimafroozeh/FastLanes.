@@ -77,21 +77,6 @@ struct TYPE_C<HEAD_T, TAIL_T...> {
 	static const n_t VALUE = 1 + TYPE_C<TAIL_T...>::VALUE;
 };
 
-/*---------------------------------------------------------------------------------------------------------------------\
- *  MAX:
- *  Return max uint64 for the given number of bits
- *
- *  Max:
- *  Compile-time version of MAX
-\---------------------------------------------------------------------------------------------------------------------*/
-template <uint64_t N>
-struct Max {
-	static constexpr uint64_t VALUE = (1UL << N) - 1UL;
-};
-
-static_assert(Max<4>::VALUE == 15);
-static_assert(Max<32>::VALUE == 4294967295, "2 ^ 32 - 1");
-
 uint64_t MAX_BIT(uint64_t bw); // NOLINT
 /*---------------------------------------------------------------------------------------------------------------------\
  *  SafeUpperBound:
