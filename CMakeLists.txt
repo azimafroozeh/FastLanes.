@@ -154,11 +154,6 @@ endif ()
 if (FLS_BUILD_BENCHMARKING)
     message("---------------------------------------------------------------------------------------------------------")
     message("- Benchmark:")
-    if (NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-        message(FATAL_ERROR "CMAKE_TOOLCHAIN_FILE is not set")
-    endif (NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-
-    configure_file(${CMAKE_SOURCE_DIR}/fls_bench/fls_bench.hpp ${CMAKE_CURRENT_BINARY_DIR}/fls_bench.hpp)
 
     include_directories(${CMAKE_CURRENT_BINARY_DIR})
     include_directories(${CMAKE_SOURCE_DIR}/benchmark/include)
