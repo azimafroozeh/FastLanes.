@@ -62,6 +62,7 @@ jobs:
 
       # Verify Ninja installation on all platforms
       - name: Verify Ninja installation
+        if: matrix.platform == 'windows-latest'
         run: ninja --version
 
       - name: Install Clang (with clang++)
