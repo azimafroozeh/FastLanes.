@@ -49,24 +49,24 @@ jobs:
           export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
           clang-tidy --version  
 
-      - name: Download LLVM
+      - name: Download LLVM on windows-latest
         if: matrix.platform == 'windows-latest'
         run: |
           curl -LO https://github.com/llvm/llvm-project/releases/download/llvmorg-17.0.1/LLVM-17.0.1-win64.exe
 
-      - name: Install LLVM
+      - name: Install LLVM on windows-latest
         if: matrix.platform == 'windows-latest'
         run: |
           Start-Process -Wait -FilePath "LLVM-17.0.1-win64.exe" -ArgumentList "/S"
 
-      - name: Add LLVM to PATH
+      - name: Add LLVM to PATH on windows-latest
         if: matrix.platform == 'windows-latest'
         run: |
           $env:Path += ";C:\Program Files\LLVM\bin"
 
-      - name: Verify LLVM installation
-        if: matrix.platform == 'windows-latest'
-        run: llvm --version
+#      - name: Verify LLVM installation on windows-latest
+#        if: matrix.platform == 'windows-latest'
+#        run: llvm --version
 
       - name: Configure CMake
         run: cmake -S ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -B ${{github.workspace}}/build_${{ matrix.build_type }}
