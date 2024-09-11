@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        platform: [ macos-latest ]
+        platform: [ ubuntu-latest, macos-latest, president ]
         build_type: [ Debug, Release ]
         cxx: [ clang++ ]
     runs-on: ${{ matrix.platform }}
@@ -37,10 +37,12 @@ jobs:
         run: mkdir ${{github.workspace}}/build_${{ matrix.build_type }}
 
       - name: Install LLVM with Clang-Tidy
+        if: matrix.platform == 'macos-latest'
         run: |
           brew install llvm
 
       - name: Add LLVM to path
+        if: matrix.platform == 'macos-latest'
         run: |
           echo "/opt/homebrew/opt/llvm/bin" >> $GITHUB_PATH
           export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
