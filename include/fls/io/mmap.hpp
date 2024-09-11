@@ -7,9 +7,6 @@
 namespace fastlanes {
 class Mmap {
 public:
-	static std::byte* Open(bsz_t bsz, int& fd, const std::filesystem::path& path);
-	template <typename T>
-	static T*         Open(bsz_t bsz, int& fd, const std::filesystem::path& path);
 	static std::byte* Resize(bsz_t bsz, int& fd);
 	template <typename T>
 	static T*   Resize(bsz_t bsz, int& fd);
