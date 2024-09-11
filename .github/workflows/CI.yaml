@@ -56,6 +56,14 @@ jobs:
           [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
           iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
+      - name: Install Ninja on Windows
+        if: matrix.platform == 'windows-latest'
+        run: choco install ninja -y
+
+      # Verify Ninja installation on all platforms
+      - name: Verify Ninja installation
+        run: ninja --version
+
       - name: Install Clang (with clang++)
         if: matrix.platform == 'windows-latest'
         run: choco install llvm -y
