@@ -49,11 +49,6 @@ jobs:
           export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
           clang-tidy --version  
 
-      - name: Download LLVM on windows-latest
-        if: matrix.platform == 'windows-latest'
-        run: |
-          curl -LO https://github.com/llvm/llvm-project/releases/download/llvmorg-17.0.1/LLVM-17.0.1-win64.exe
-
       - name: Install Chocolatey
         if: matrix.platform == 'windows-latest'
         run: |
@@ -70,7 +65,12 @@ jobs:
         run: clang++ --version
 
       - name: Configure CMake
-        run: cmake -S ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -B ${{github.workspace}}/build_${{ matrix.build_type }}
+        run: |
+          cmake -S ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+          -B ${{github.workspace}}/build_${{ matrix.build_type }} \
+          -DCMAKE_C_COMPILER=clang \
+          -DCMAKE_CXX_COMPILER=clang++ \
+
         env:
           CXX: ${{ matrix.cxx }}
 
