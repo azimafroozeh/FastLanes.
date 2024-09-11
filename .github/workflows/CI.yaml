@@ -37,17 +37,37 @@ jobs:
       - name: Make directory build
         run: mkdir ${{github.workspace}}/build_${{ matrix.build_type }}
 
-      - name: Install LLVM with Clang-Tidy
+      - name: Install LLVM on macos
         if: matrix.platform == 'macos-latest'
         run: |
           brew install llvm
 
-      - name: Add LLVM to path
+      - name: Add LLVM to path on macos
         if: matrix.platform == 'macos-latest'
         run: |
           echo "/opt/homebrew/opt/llvm/bin" >> $GITHUB_PATH
           export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
           clang-tidy --version  
+          
+          steps:
+      - name: Download LLVM
+        if: matrix.platform == 'windows-latest'
+        run: |
+          curl -LO https://github.com/llvm/llvm-project/releases/download/llvmorg-17.0.1/LLVM-17.0.1-win64.exe
+
+      - name: Install LLVM
+        if: matrix.platform == 'windows-latest'
+        run: |
+          Start-Process -Wait -FilePath "LLVM-17.0.1-win64.exe" -ArgumentList "/S"
+
+      - name: Add LLVM to PATH
+        if: matrix.platform == 'windows-latest'
+        run: |
+          $env:Path += ";C:\Program Files\LLVM\bin"
+
+      - name: Verify LLVM installation
+        if: matrix.platform == 'windows-latest'
+        run: llvm --version
 
       - name: Configure CMake
         run: cmake -S ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -B ${{github.workspace}}/build_${{ matrix.build_type }}
