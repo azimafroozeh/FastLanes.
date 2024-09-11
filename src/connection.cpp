@@ -36,13 +36,13 @@ Connection& Connection::read(const path& dir_path) {
 			dir.schema_path = file_path;
 		}
 
-		if (const auto schema_path = string(file_path).find("csv"); schema_path != std::string::npos) {
+		if (const auto schema_path = file_path.string().find("csv"); schema_path != std::string::npos) {
 			is_file_found = true;
 			dir.file_path = file_path;
 			dir.file_t    = FileT::CSV;
 		}
 
-		if (const auto schema_path = string(file_path).find("jsonl"); schema_path != std::string::npos) {
+		if (const auto schema_path = file_path.string().find("jsonl"); schema_path != std::string::npos) {
 			is_file_found = true;
 			dir.file_path = file_path;
 			dir.file_t    = FileT::JSON;
