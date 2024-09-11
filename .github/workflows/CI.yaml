@@ -162,8 +162,8 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Make exmaple_build_${{ matrix.build_type }} directory
-        run: mkdir ${{github.workspace}}/example_build_${{ matrix.build_type }}
+      - name: Make directory build
+        run: mkdir ${{github.workspace}}/build_${{ matrix.build_type }}
 
       - name: Install LLVM on macos
         if: matrix.platform == 'macos-latest'
