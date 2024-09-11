@@ -1,8 +1,12 @@
 #include "fls/io/mmap.hpp"
 #include <cstring>
 #include <sys/fcntl.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
+#if defined(_WIN32)
+#include <windows.h> // For Windows memory-mapping
+#else
+#include <sys/mman.h> // For POSIX memory-mapping
+#endif
+#include < sys / stat.h>
 #include <unistd.h>
 
 namespace fastlanes {
