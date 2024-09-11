@@ -32,7 +32,11 @@
 #include <numeric>
 #include <queue>
 #include <string>
-#include <sys/mman.h>
+#if defined(_WIN32)
+#include <windows.h> // For Windows memory-mapping
+#else
+#include <sys/mman.h> // For POSIX memory-mapping
+#endif
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unordered_set>
