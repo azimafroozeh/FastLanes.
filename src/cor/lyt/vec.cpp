@@ -10,6 +10,8 @@
 #include "fls/printer/to_str.hpp"
 #include <type_traits>
 
+#pragma clang diagnostic ignored "-Wshorten-64-to-32"
+
 namespace fastlanes {
 static constexpr uint64_t VEC_SZ = 1024ULL * 1024;
 
