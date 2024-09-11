@@ -27,14 +27,14 @@ void Engine<PT>::Compress(Vec& src_vec, EngineState& eng_state) {
 
 template <typename PT>
 void Engine<PT>::Decompress(Vec& des) {
-	FLS_ASSERT_NOT_NULL_POINTER(m_decompressor_up)
+	FLS_ASSERT_NOT_NULL_POINTER(m_decompressor_up.get())
 
 	m_decompressor_up->Decompress(des);
 }
 
 template <typename PT>
 Vec* Engine<PT>::Decompress(DecompressState& stt) {
-	FLS_ASSERT_NOT_NULL_POINTER(m_decompressor_up)
+	FLS_ASSERT_NOT_NULL_POINTER(m_decompressor_up.get())
 
 	return m_decompressor_up->Decompress(stt);
 }

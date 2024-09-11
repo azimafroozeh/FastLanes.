@@ -1,4 +1,5 @@
 #include "fls/common/assert.hpp"
+#include <cassert>
 #include <cstdlib>  // for abort
 #include <iostream> // for operator<<, char_traits, basic_ostream, cerr
 
@@ -11,7 +12,6 @@ void FlsAssert(const char* expr_str, const char* str, bool expr, const char* fil
 	          << "Values:\t\t" << str << "\n"
 	          << file << ":" << line << "\n";
 	abort();
-	throw std::runtime_error("aborted");
 }
 
 void DetailedFlsAssert(const char* expr_str, const char* str, bool expr, const char* file, int line, const char* msg) {
@@ -23,4 +23,6 @@ void DetailedFlsAssert(const char* expr_str, const char* str, bool expr, const c
 	          << file << ":" << line << "\n";
 	abort();
 }
+
+void Assert::NotNullPointer(const void* p) { assert(p != nullptr && "Pointer must not be null"); }
 } // namespace fastlanes

@@ -40,7 +40,9 @@ misc-throw-by-value-catch-by-reference,
 google-global-names-in-headers,
 llvm-header-guard,
 misc-definitions-in-headers,
-readability-container-size-empty'
+readability-container-size-empty
+clang-analyzer-core.NonNullParamChecker
+'
 
 WarningsAsErrors: '*'
 AnalyzeTemporaryDtors: false

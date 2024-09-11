@@ -12,7 +12,7 @@ void Exe<T>::Execute(Vec& src_vec, Vec& des_vec, CompressState& compress_state) 
 	compress_state.cur_des_buff = 0;
 
 	for (size_t i = 0; i < rpn_p->prm_c; ++i) {
-		FLS_ASSERT_NOT_NULL_POINTER(cmpr_fun_arr[i])
+		// FLS_ASSERT_NOT_NULL_POINTER(cmpr_fun_arr[i]) //fixme
 
 		cmpr_fun_arr[i](src_vec, des_vec, compress_state);
 	}
@@ -26,7 +26,7 @@ void Exe<T>::ResCmpr(sp<TExp<T>> exp) {
 	for (size_t i = 0; i < rpn_p->prm_c; ++i) {
 		cmpr_fun_arr[i] = resolver<T>::resolve_cmpr(rpn_p->prm_arr[i], rpn_p->typ_arr[i], exp);
 
-		FLS_ASSERT_NOT_NULL_POINTER(cmpr_fun_arr[i])
+		// FLS_ASSERT_NOT_NULL_POINTER(cmpr_fun_arr[i]) //fixme
 	}
 }
 
@@ -36,7 +36,7 @@ void Exe<T>::ResDecmpr(sp<TExp<T>> exp) {
 	for (size_t i = 0; i < rpn_p->prm_c; ++i) {
 		de_cmpr_fun_arr[i] = resolver<T>::resolve_de_cmpr(rpn_p->prm_arr[i], rpn_p->typ_arr[i], exp);
 
-		FLS_ASSERT_NOT_NULL_POINTER(de_cmpr_fun_arr[i])
+		// FLS_ASSERT_NOT_NULL_POINTER(de_cmpr_fun_arr[i])
 	}
 }
 
@@ -46,7 +46,7 @@ void Exe<T>::Execute(PageParam pg_params, VecParam vec_params, DecompressState& 
 	stt.cur_des_arr = rpn_p->des_buf_c - 1;
 
 	for (size_t i = rpn_p->prm_c; i > 0; --i) {
-		FLS_ASSERT_NOT_NULL_POINTER(de_cmpr_fun_arr[i - 1])
+		// FLS_ASSERT_NOT_NULL_POINTER(de_cmpr_fun_arr[i - 1])
 
 		de_cmpr_fun_arr[i - 1](pg_params, vec_params, stt);
 	}

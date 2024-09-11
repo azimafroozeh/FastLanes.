@@ -168,7 +168,7 @@ void assert_eq(Vec* vec, const PT* data_p, idx_t start_idx, ExpT exp) {
 			auto* str_p   = vec->buf_arr[vec->arr_c + 0].mutable_data();
 			auto* off_arr = vec->buf_arr[vec->arr_c + 1].mutable_data<uint32_t>();
 
-			FLS_ASSERT_NOT_NULL_POINTER(vec->fsst_decoder_up)
+			FLS_ASSERT_NOT_NULL_POINTER(vec->fsst_decoder_up.get())
 
 			uint32_t untransposed[1024] = {0};
 			untranspose_i(off_arr, untransposed);
@@ -213,7 +213,7 @@ void assert_eq(Vec* vec, const PT* data_p, idx_t start_idx, ExpT exp) {
 			auto* str_p   = vec->buf_arr[vec->arr_c + 0].mutable_data();
 			auto* off_arr = vec->buf_arr[vec->arr_c + 1].mutable_data<uint32_t>();
 
-			FLS_ASSERT_NOT_NULL_POINTER(vec->fsst12_decoder_up)
+			FLS_ASSERT_NOT_NULL_POINTER(vec->fsst12_decoder_up.get())
 
 			uint32_t untransposed[1024] = {0};
 			untranspose_i(off_arr, untransposed);

@@ -1,8 +1,8 @@
 #include "fls/cor/exp/hdr.hpp"
 #include "fls/common/assert.hpp" // for FLS_ASSERT
-#include <cstddef>               // for byte
-#include <iosfwd>                // for string
-#include <string>                // for basic_string
+#include <cassert>
+#include <cstddef> // for byte
+#include <string>  // for basic_string
 
 namespace fastlanes::exp {
 std::string Hdr::ToString() const {
@@ -16,12 +16,11 @@ std::string& Hdr::operator<<(std::string& lhs) {
 }
 
 Hdr Hdr::Load(std::byte* p) {
-	FLS_ASSERT(p != nullptr, "", "");
-
+	FLS_ASSERT_NOT_NULL_POINTER(p);
 	return *(reinterpret_cast<Hdr*>(p));
 }
 Hdr Hdr::Load(uint8_t* p) {
-	FLS_ASSERT(p != nullptr, " ", " ");
+	FLS_ASSERT_NOT_NULL_POINTER(p);
 
 	return *(reinterpret_cast<Hdr*>(p));
 }
