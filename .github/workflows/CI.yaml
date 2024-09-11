@@ -48,8 +48,7 @@ jobs:
           echo "/opt/homebrew/opt/llvm/bin" >> $GITHUB_PATH
           export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
           clang-tidy --version  
-          
-          steps:
+
       - name: Download LLVM
         if: matrix.platform == 'windows-latest'
         run: |
