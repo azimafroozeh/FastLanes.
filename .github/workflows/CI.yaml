@@ -66,11 +66,7 @@ jobs:
 
       - name: Configure CMake
         run: |
-          cmake -S ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-          -B ${{github.workspace}}/build_${{ matrix.build_type }} \
-          -DCMAKE_C_COMPILER=clang \
-          -DCMAKE_CXX_COMPILER=clang++ \
-
+          cmake -S ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -B ${{github.workspace}}/build_${{ matrix.build_type }} -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
         env:
           CXX: ${{ matrix.cxx }}
 
