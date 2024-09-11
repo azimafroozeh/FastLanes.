@@ -182,7 +182,7 @@ fsst_decompress(fsst_decoder_t* decoder, /* IN: use this symbol table for compre
 			pos_out += len[code];
 		} else {
 			unsigned long first_escape_pos =
-			    static_cast<unsigned long>(__builtin_ctzl((unsigned long long)escape_mask)) >> 3;
+			    static_cast<unsigned long>(__builtin_ctzl(static_cast<unsigned long long>(escape_mask))) >> 3;
 			switch (first_escape_pos) { /* Duff's device */
 			case 3:
 				code = str_in[pos_in++];
