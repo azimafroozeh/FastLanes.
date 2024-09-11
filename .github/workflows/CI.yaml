@@ -55,18 +55,22 @@ jobs:
           curl -LO https://github.com/llvm/llvm-project/releases/download/llvmorg-17.0.1/LLVM-17.0.1-win64.exe
 
       - name: Download LLVM (with Clang)
+        if: matrix.platform == 'windows-latest'
         run: |
           curl -LO https://github.com/llvm/llvm-project/releases/download/llvmorg-17.0.1/LLVM-17.0.1-win64.exe
 
       - name: Install LLVM
+        if: matrix.platform == 'windows-latest'
         run: |
           Start-Process -Wait -FilePath "LLVM-17.0.1-win64.exe" -ArgumentList "/S"
 
       - name: Add LLVM (Clang) to PATH
+        if: matrix.platform == 'windows-latest'
         run: |
           $env:Path += ";C:\Program Files\LLVM\bin"
 
       - name: Verify Clang installation
+        if: matrix.platform == 'windows-latest'
         run: clang --version
 
       - name: Configure CMake
