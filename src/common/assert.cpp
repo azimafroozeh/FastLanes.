@@ -11,6 +11,7 @@ void FlsAssert(const char* expr_str, const char* str, bool expr, const char* fil
 	          << "Values:\t\t" << str << "\n"
 	          << file << ":" << line << "\n";
 	abort();
+	throw std::runtime_error("aborted");
 }
 
 void DetailedFlsAssert(const char* expr_str, const char* str, bool expr, const char* file, int line, const char* msg) {
