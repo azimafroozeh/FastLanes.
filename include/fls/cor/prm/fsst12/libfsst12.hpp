@@ -121,7 +121,7 @@ struct Symbol12 {
 #define FSST12_HASH_PRIME1   2971215073LL
 #define FSST12_HASH(w)       (((w) * FSST12_HASH_PRIME1) ^ (((w) * FSST12_HASH_PRIME1) >> 13))
 	ulong hash() const {
-		uint v0 = 0xFFFFFFFF & *(ulong*)symbol;
+		uint32_t v0 = 0xFFFFFFFF & *(ulong*)symbol;
 		return FSST12_HASH(v0);
 	}
 
