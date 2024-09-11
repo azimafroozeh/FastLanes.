@@ -165,11 +165,55 @@ jobs:
       - name: Make exmaple_build_${{ matrix.build_type }} directory
         run: mkdir ${{github.workspace}}/example_build_${{ matrix.build_type }}
 
+      - name: Install LLVM on macos
+        if: matrix.platform == 'macos-latest'
+        run: |
+          brew install llvm
+
+      - name: Add LLVM to path on macos
+        if: matrix.platform == 'macos-latest'
+        run: |
+          echo "/opt/homebrew/opt/llvm/bin" >> $GITHUB_PATH
+          export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+          clang-tidy --version  
+
+      - name: Install Chocolatey
+        if: matrix.platform == 'windows-latest'
+        run: |
+          Set-ExecutionPolicy Bypass -Scope Process -Force;
+          [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
+          iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+      - name: Install Ninja on Windows
+        if: matrix.platform == 'windows-latest'
+        run: choco install ninja -y
+
+      # Verify Ninja installation on all platforms
+      - name: Verify Ninja installation
+        if: matrix.platform == 'windows-latest'
+        run: ninja --version
+
+      - name: Install Clang (with clang++)
+        if: matrix.platform == 'windows-latest'
+        run: choco install llvm -y
+
+      - name: Verify Clang++ installation
+        if: matrix.platform == 'windows-latest'
+        run: clang++ --version
+
       - name: Configure CMake
-        run: cmake  -DFLS_BUILD_EXAMPLE=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S ${{github.workspace}} -B ${{github.workspace}}/exmaple_build_${{ matrix.build_type }}
+        if: matrix.platform != 'windows-latest'
+        run: |
+          cmake -S ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -B ${{github.workspace}}/build_${{ matrix.build_type }} -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
         env:
           CXX: ${{ matrix.cxx }}
-          CC: ${{matrix.cc}}
+
+      - name: Configure CMake
+        if: matrix.platform == 'windows-latest'
+        run: |
+          cmake -S ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -B ${{github.workspace}}/build_${{ matrix.build_type }} -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -G "Ninja" -DCMAKE_CXX_FLAGS="-target x86_64-w64-windows-gnu"
+        env:
+          CXX: ${{ matrix.cxx }}
 
       - name: Build
         run: cmake --build ${{github.workspace}}/exmaple_build_${{ matrix.build_type }} -j 10
