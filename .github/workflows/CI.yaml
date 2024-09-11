@@ -5,7 +5,7 @@ on: push
 
 jobs:
   check-format:
-    runs-on: [ ubuntu-latest, macos-latest ]
+    runs-on: [ ubuntu-latest, self-hosted ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        platform: [ ubuntu-latest, macos-latest ]
+        platform: [ ubuntu-latest, self-hosted ]
         build_type: [ Debug, Release ]
         cxx: [ clang++ ]
     runs-on: ${{ matrix.platform }}
@@ -46,7 +46,7 @@ jobs:
   #    strategy:
   #      fail-fast: true
   #      matrix:
-  #        platform: [ ubuntu-latest, macos-latest]
+  #        platform: [ ubuntu-latest, self-hosted]
   #        build_type: [ Release ]
   #        cxx: [ clang++ ]
   #    runs-on: ${{ matrix.platform }}
@@ -72,7 +72,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        platform: [ ubuntu-latest, macos-latest ]
+        platform: [ ubuntu-latest, self-hosted ]
         python-version: [ 3.12.4 ]  # Python 3 versions
 
     runs-on: ${{ matrix.platform }}
@@ -99,7 +99,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        platform: [ ubuntu-latest, macos-latest ]
+        platform: [ ubuntu-latest, self-hosted ]
         build_type: [ Debug ]
         cc: [ clang ]
         cxx: [ clang++ ]
@@ -131,7 +131,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        platform: [ ubuntu-latest, macos-latest ]
+        platform: [ self-hosted ]
         build_type: [ Release ] # TODO : ADD DEBUG
         cxx: [ clang++ ]
     runs-on: ${{ matrix.platform }}
@@ -155,7 +155,7 @@ jobs:
 
       - name: Test
         working-directory: ${{github.workspace}}/test_build_${{ matrix.build_type }}
-        run: ctest -j 10 --stop-on-failure --output-on-failure --timeout 5000
+        run: ctest -j 96 --stop-on-failure --output-on-failure --timeout 5000
 
 
 
