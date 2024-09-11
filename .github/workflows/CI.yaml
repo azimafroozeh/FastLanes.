@@ -151,7 +151,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        platform: [ ubuntu-latest, macos-latest, president, windows-latest ]
+        platform: [ ubuntu-latest, macos-latest, windows-latest ]
         build_type: [ Debug ]
         cc: [ clang ]
         cxx: [ clang++ ]
