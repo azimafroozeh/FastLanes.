@@ -5,7 +5,12 @@ on: push
 
 jobs:
   check-format:
-    runs-on: [ ubuntu-latest, self-hosted ]
+    strategy:
+      fail-fast: true
+      matrix:
+        platform: [ ubuntu-latest, self-hosted ]
+    runs-on: ${{ matrix.platform }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
