@@ -18,6 +18,23 @@ jobs:
       - name: run-clang-format
         run: python3 scripts/run-clang-format.py -r example include src benchmark test data/include --exclude include/fls/json/nlohmann
 
+  clang_tidy:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install LLVM with Clang-Tidy
+        run: |
+          brew install llvm
+
+      - name: Add LLVM to path
+        run: |
+          echo "/opt/homebrew/opt/llvm/bin" >> $GITHUB_PATH
+          export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+          clang-tidy --version  
+
   build:
     needs:
       - check-format
