@@ -6,7 +6,7 @@
 #else
 #include <sys/mman.h> // For POSIX memory-mapping
 #endif
-#include < sys / stat.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 namespace fastlanes {
