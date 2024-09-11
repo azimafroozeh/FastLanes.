@@ -22,7 +22,6 @@ jobs:
     needs:
       - check-format
     strategy:
-      fail-fast: true
       matrix:
         platform: [ ubuntu-latest, macos-latest, president ]
         build_type: [ Debug, Release ]
@@ -84,8 +83,9 @@ jobs:
   #        run: cmake --build ${{github.workspace}}/build_iwyu_${{ matrix.build_type }} -j 10
 
   generate_dataset:
-    needs:
-      - build
+    needs: [ build ]
+    if: success()
+
     strategy:
       fail-fast: true
       matrix:
