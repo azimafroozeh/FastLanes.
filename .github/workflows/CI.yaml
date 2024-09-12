@@ -71,7 +71,9 @@ jobs:
 
       - name: Verify Clang++ installation
         if: matrix.platform == 'windows-latest'
-        run: clang++ --version
+        run: |
+          clang++ --version
+          lld-link --version
 
       - name: Configure CMake
         if: matrix.platform != 'windows-latest'
