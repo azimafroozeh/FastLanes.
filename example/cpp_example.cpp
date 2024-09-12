@@ -31,27 +31,5 @@ int main() {
 			if (output_arr[i] != input_arr[i]) { throw std::runtime_error("decoding failed"); }
 		}
 	}
-	{
-		const path fastlanes_repo_data_path {CMAKE_SOURCE_DIR};
-		const path arade_dir_path     = fastlanes_repo_data_path / string(public_bi::Arade);
-		const path example_1_dir_path = fastlanes_repo_data_path / string(GENERATED::EXAMPLE_1);
-		const path example_2_dir_path = fastlanes_repo_data_path / string(GENERATED::EXAMPLE_2);
-		const path fls_dir_path       = fastlanes_repo_data_path / "data" / "fls";
-		Connection con;
-
-		// Example 2: [WIP] Process a CSV file
-		// Step 1: Reset the connection and read the CSV file from the specified directory path
-		con.reset().read(example_2_dir_path);
-
-		// Step 2: Write the data to the FastLanes file format in the specified directory
-		con.to_fls(fls_dir_path);
-
-		// Step 3: Reset the connection again and obtain a FastLanes reader for the previously stored data
-		auto& fls_reader = con.reset().read_fls(fls_dir_path);
-
-		// Step 4: Write the data from the FastLanes format back to a CSV file in the specified directory
-		fls_reader.to_csv(fls_dir_path);
-	}
-
 	return 0;
 }
