@@ -216,7 +216,7 @@ jobs:
           CXX: ${{ matrix.cxx }}
 
       - name: Build
-        run: cmake --build ${{github.workspace}}/exmaple_build_${{ matrix.build_type }} -j 10
+        run: cmake --build ${{github.workspace}}/build_${{ matrix.build_type }} -j 10
 
       - name: run cpp_example
         run: ${{github.workspace}}/build_${{ matrix.build_type }}/example/cpp_example
