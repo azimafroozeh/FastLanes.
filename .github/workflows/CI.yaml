@@ -222,8 +222,8 @@ jobs:
   #        run: ${{github.workspace}}/build_${{ matrix.build_type }}/example/cpp_example
 
   test:
-    needs:
-      - example
+    #    needs:
+    #      - example
     strategy:
       fail-fast: true
       matrix:
