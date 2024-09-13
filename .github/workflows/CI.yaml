@@ -236,8 +236,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: true        # Fetch submodules
-          fetch-depth: 0          # Ensure the full history is fetched (required for submodules)
+          submodules: recursive
 
       - name: Make directory build
         run: mkdir ${{github.workspace}}/test_build_${{ matrix.build_type }}
