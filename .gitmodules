@@ -1,4 +1,0 @@
-[submodule "FastLanes_Data"]
-	path = FastLanes_Data
-	url = https://github.com/cwida/FastLanes_Data
-	branch = main

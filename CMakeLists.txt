@@ -69,9 +69,21 @@ endif ()
 # DATA : ---------------------------------------------------------------------------------------------------------------
 if (FLS_BUILD_TESTING OR FLS_BUILD_BENCHMARKING OR FLS_BUILD_EXAMPLE)
     message("---------------------------------------------------------------------------------------------------------")
-    message("-- FLS: Enabling Sample Data.")
+    message("-- FLS: Enabling Data.")
 
     include_directories(${CMAKE_SOURCE_DIR}/data/include)
+
+    FetchContent_Declare(
+            data
+            GIT_REPOSITORY https://github.com/cwida/FastLanes_Data.git
+            GIT_TAG main # main
+    )
+
+    FetchContent_MakeAvailable(data)
+
+    add_compile_definitions(FASTLANES_DATA_DIR="${data_SOURCE_DIR}")
+    cmake_print_variables(data_SOURCE_DIR)
+
 endif ()
 
 # Definitions: ---------------------------------------------------------------------------------------------------------

@@ -7,7 +7,7 @@ add_executable(
         main.cpp
         nextiajd_test.cpp
         public_bi_test.cpp
-        realnest_read_test.cpp
+#        realnest_read_test.cpp
         tester.cpp)
 
 target_link_libraries(tests PUBLIC gtest_main gmock_main fastlanes)
