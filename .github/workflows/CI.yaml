@@ -97,7 +97,7 @@ jobs:
       fail-fast: true
       matrix:
         platform: [ president ]
-        build_type: [ Release ]
+        build_type: [ Release, Debug ]
         cxx: [ clang++ ]
     runs-on: ${{ matrix.platform }}
 
