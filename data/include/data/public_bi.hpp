@@ -1,5 +1,5 @@
-#ifndef DATA_FOOTER_PUBLIC_BI_HPP
-#define DATA_FOOTER_PUBLIC_BI_HPP
+#ifndef DATA_PUBLIC_BI_HPP
+#define DATA_PUBLIC_BI_HPP
 
 #include "fls/std/string.hpp"
 
@@ -48,4 +48,4 @@ public:
 };
 } // namespace fastlanes
 
-#endif // DATA_FOOTER_PUBLIC_BI_HPP
+#endif // DATA_PUBLIC_BI_HPP

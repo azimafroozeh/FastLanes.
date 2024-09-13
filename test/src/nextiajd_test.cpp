@@ -1,4 +1,4 @@
-#include "data/footer/NextiaJD.hpp"
+#include "data/NextiaJD.hpp"
 #include "fastlanes.hpp"
 #include "test/tester.hpp"
 

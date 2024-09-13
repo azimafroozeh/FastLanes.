@@ -251,7 +251,7 @@ jobs:
 
       - name: Test
         working-directory: ${{github.workspace}}/test_build_${{ matrix.build_type }}
-        run: ctest -j 96 --stop-on-failure --output-on-failure --timeout 5000
+        run: ctest -j 10 --stop-on-failure --output-on-failure --timeout 5000
 
 
 

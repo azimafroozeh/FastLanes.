@@ -1,4 +1,4 @@
-#include "data/footer/issue.hpp"
+#include "data/issue.hpp"
 #include "test/tester.hpp"
 
 namespace fastlanes {

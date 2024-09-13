@@ -1,11 +1,11 @@
 #ifndef DATA_FASTLANES_DATA_HPP
 #define DATA_FASTLANES_DATA_HPP
 
-#include "data/footer/NextiaJD.hpp"
-#include "data/footer/clickbench.hpp"
-#include "data/footer/generated.hpp"
-#include "data/footer/issue.hpp"
-#include "data/footer/public_bi.hpp"
+#include "data/NextiaJD.hpp"
+#include "data/clickbench.hpp"
+#include "data/generated.hpp"
+#include "data/issue.hpp"
+#include "data/public_bi.hpp"
 
 namespace fastlanes {
 

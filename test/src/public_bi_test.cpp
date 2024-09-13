@@ -1,4 +1,4 @@
-#include "data/footer/public_bi.hpp"
+#include "data/public_bi.hpp"
 #include "fastlanes.hpp"
 #include "test/tester.hpp"
 

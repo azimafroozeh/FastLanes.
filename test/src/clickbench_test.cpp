@@ -1,4 +1,4 @@
-#include "data/footer/clickbench.hpp"
+#include "data/clickbench.hpp"
 #include "test/tester.hpp"
 
 namespace fastlanes {

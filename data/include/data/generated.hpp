@@ -1,7 +1,7 @@
 #ifndef DATA_FOOTER_GENERATED_HPP
 #define DATA_FOOTER_GENERATED_HPP
 
-#include "fls/table/dir.hpp"
+#include "fls/std/string.hpp"
 
 namespace fastlanes {
 
