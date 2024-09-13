@@ -76,7 +76,7 @@ if (FLS_BUILD_TESTING OR FLS_BUILD_BENCHMARKING OR FLS_BUILD_EXAMPLE)
     FetchContent_Declare(
             data
             GIT_REPOSITORY https://github.com/cwida/FastLanes_Data.git
-            GIT_TAG main # main
+            GIT_TAG 2_no_git_moudles # main
     )
 
     FetchContent_MakeAvailable(data)
