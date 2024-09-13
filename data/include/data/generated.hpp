@@ -1,5 +1,5 @@
-#ifndef DATA_FOOTER_GENERATED_HPP
-#define DATA_FOOTER_GENERATED_HPP
+#ifndef DATA_GENERATED_HPP
+#define DATA_GENERATED_HPP
 
 #include "fls/std/string.hpp"
 
@@ -12,4 +12,4 @@ public:
 };
 } // namespace fastlanes
 
-#endif // DATA_FOOTER_GENERATED_HPP
+#endif // DATA_GENERATED_HPP
